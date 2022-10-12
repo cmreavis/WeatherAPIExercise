@@ -22,10 +22,13 @@ namespace WeatherAPIExercise
             //Includes usage of Imperial units, uses city and apiKey variables
             var openWeatherUrl = $"http://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid={apiKey}";
 
+
             //Stores response in a local variable
             var weatherResponse = client.GetStringAsync(openWeatherUrl).Result;
+            //Formats weatherResponse to a string we can parse for the temperature value
+            var formattedResponse = JObject.Parse(weatherResponse).GetValue("main").ToString();
 
-
+            Console.WriteLine($"Current air temperature in {city}: {JObject.Parse(formattedResponse).GetValue("temp")} degrees (Fahrenheit).");
         }
     }
 }
